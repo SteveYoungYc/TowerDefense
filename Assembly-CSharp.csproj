@@ -50,7 +50,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Turret.cs" />
+     <Compile Include="Assets\Scripts\TurretTurn.cs" />
+     <Compile Include="Assets\Scripts\TurretShoot.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity/TowerDefense/TowerDefense/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
