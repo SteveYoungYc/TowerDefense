@@ -7,6 +7,7 @@ TagManager:
   - Turret
   - TurretBarrel
   - TurretBase
+  - Enemy
   layers:
   - Default
   - TransparentFX
