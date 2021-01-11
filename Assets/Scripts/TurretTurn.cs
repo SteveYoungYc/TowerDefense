@@ -13,6 +13,8 @@ public class TurretTurn : MonoBehaviour {
     private GameObject barrel;
     private GameObject turretBase;
     private GameObject enemy;
+
+    public GameObject findEnemy;
     // Start is called before the first frame update
     void Start() {
         this.transform.position = new Vector3(0,0,2);
@@ -44,31 +46,21 @@ public class TurretTurn : MonoBehaviour {
         this.transform.Rotate(leftRight,Space.Self);
         barrel.transform.Rotate(upDown,Space.Self);
     }
-
-    void AutoTurn1(Vector3 pos) {
-        Quaternion upDownAngel;
-        float distance = Vector3.Distance(pos, barrel.transform.position);
-        Vector3 posXZ = new Vector3(pos.x, 0, pos.z);
-        Vector3 barrelPosXZ = new Vector3(barrel.transform.position.x, 0, barrel.transform.position.z);
-        upDownAngel = Quaternion.Euler(Mathf.Asin(-(pos.y - barrel.transform.position.y) / distance) * 180 / Mathf.PI, 0, 0);
-        //print(Mathf.Asin(-(pos.y - barrel.transform.position.y) / distance) * 180 / Mathf.PI);
-        //barrel.transform.rotation = Quaternion.Slerp(barrel.transform.rotation, upDownAngel, rotateSpeed * Time.deltaTime);
-        // 当初始角度跟目标角度小于1,将目标角度赋值给初始角度,让旋转角度是我们需要的角度
-        //if (Quaternion.Angle(upDownAngel, barrel.transform.rotation) < 0.001) {
-            //barrel.transform.rotation = upDownAngel;
-            barrel.transform.localEulerAngles = new Vector3(Mathf.Asin(-(pos.y - barrel.transform.position.y) / distance) * 180 / Mathf.PI, Vector3.Angle(posXZ - barrelPosXZ, barrel.transform.localEulerAngles), 0);
-            //}
-            //leftRight = new Vector3(0, -rotateSpeed * Time.deltaTime, 0);
-    }
-
+    
     void AutoTurn(Vector3 pos) {
         Vector3 angle = LookRotation(pos - barrel.transform.position);
         //Quaternion yawQuaternion = Quaternion.Euler(new Vector3(0, angle.y, 0));
         //Quaternion pitchQuaternion = Quaternion.Euler(new Vector3(angle.x, 0, angle.z));
         //transform.rotation = Quaternion.Slerp(transform.rotation, yawQuaternion, rotateSpeed * Time.deltaTime);
         //barrel.transform.rotation = Quaternion.Slerp(barrel.transform.rotation, pitchQuaternion, rotateSpeed * Time.deltaTime);
-        transform.localEulerAngles = new Vector3(0, angle.y, 0);
-        barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
+        if (Vector3.Distance(pos, transform.position) < 10) {
+            SendMessage("ShowMsg", "1");
+            transform.localEulerAngles = new Vector3(0, angle.y, 0);
+            barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
+        }
+        else {
+            SendMessage("ShowMsg", "0");
+        }
     }
     
     public Vector3 LookRotation(Vector3 fromDir) {
