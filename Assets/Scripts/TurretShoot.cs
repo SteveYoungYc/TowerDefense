@@ -13,20 +13,15 @@ public class TurretShoot : MonoBehaviour {
     private bool findEnemy = true;
 
     private AudioClip laserAudioClip;
+    private AudioSource laseAudioSource;
     public void ShowMsg(string msg) {
-        print(msg);
-        if (msg == "1") {
-            findEnemy = true;
-        }
-        else {
-            findEnemy = false;
-        }
+        findEnemy = msg == "1";
     }
     
     // Start is called before the first frame update
     void Start() {
-        barrel = GameObject.FindGameObjectWithTag("TurretBarrel");
-        gunBarrel = GameObject.Find("Cylinder");
+        barrel = transform.Find("gun barrel").gameObject;
+        gunBarrel = barrel.transform.Find("Cylinder").gameObject;
         
         laser = GetComponent<LineRenderer>();
         laser.positionCount = 2;
@@ -37,10 +32,11 @@ public class TurretShoot : MonoBehaviour {
         laser.SetPosition(0, barrel.transform.position);
         
         laserAudioClip = Resources.Load<AudioClip>("Audio/LaserShoot1");
-        this.gameObject.GetComponent<AudioSource>().clip = laserAudioClip;
-        this.gameObject.GetComponent<AudioSource>().volume = 0.8f;
-        this.gameObject.GetComponent<AudioSource>().loop = true;
-        this.gameObject.GetComponent<AudioSource>().Play();
+        laseAudioSource = gameObject.GetComponent<AudioSource>();
+        laseAudioSource.clip = laserAudioClip;
+        laseAudioSource.volume = 0.8f;
+        laseAudioSource.loop = true;
+        laseAudioSource.Play();
     }
 
     // Update is called once per frame
@@ -51,17 +47,16 @@ public class TurretShoot : MonoBehaviour {
                 Mathf.Cos(this.transform.eulerAngles.y / 180f * Mathf.PI));
             ray = new Ray(gunBarrel.transform.position, Vector3.Normalize(toward));
             RaycastHit hit;
-            this.gameObject.GetComponent<AudioSource>().mute = false;
+            laseAudioSource.mute = false;
             
-            //yield return new WaitForSeconds(laserAudioClip.length);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
                 //Debug.Log("碰撞对象: " + hit.collider.name);
-                //Debug.DrawLine(ray.origin, hit.point, Color.red);
+                Debug.DrawLine(ray.origin, hit.point, Color.red);
                 laser.SetPosition(1, hit.point);
             }
         }
         else {
-            this.gameObject.GetComponent<AudioSource>().mute = true;
+            laseAudioSource.mute = true;
             laser.SetPosition(1, barrel.transform.position);
         }
     }

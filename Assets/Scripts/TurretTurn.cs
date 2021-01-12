@@ -7,19 +7,17 @@ public class TurretTurn : MonoBehaviour {
     
     private Vector3 leftRight;
     private Vector3 upDown;
-    private Vector3 pos;
+    //private Vector3 pos;
     private const float rotateSpeed = 100f;
 
     private GameObject barrel;
     private GameObject turretBase;
     private GameObject enemy;
 
-    public GameObject findEnemy;
     // Start is called before the first frame update
     void Start() {
-        this.transform.position = new Vector3(0,0,2);
-
-        barrel = GameObject.FindGameObjectWithTag("TurretBarrel");
+        barrel = transform.Find("gun barrel").gameObject;
+            //GameObject.FindGameObjectWithTag("TurretBarrel");
         enemy = GameObject.FindGameObjectWithTag("Enemy");
     }
 
@@ -49,6 +47,7 @@ public class TurretTurn : MonoBehaviour {
     
     void AutoTurn(Vector3 pos) {
         Vector3 angle = LookRotation(pos - barrel.transform.position);
+        print(name + barrel.transform.position);
         //Quaternion yawQuaternion = Quaternion.Euler(new Vector3(0, angle.y, 0));
         //Quaternion pitchQuaternion = Quaternion.Euler(new Vector3(angle.x, 0, angle.z));
         //transform.rotation = Quaternion.Slerp(transform.rotation, yawQuaternion, rotateSpeed * Time.deltaTime);
