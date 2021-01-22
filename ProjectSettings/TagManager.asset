@@ -8,6 +8,7 @@ TagManager:
   - TurretBarrel
   - TurretBase
   - Enemy
+  - Road
   layers:
   - Default
   - TransparentFX

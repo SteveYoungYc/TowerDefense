@@ -47,7 +47,7 @@ public class TurretTurn : MonoBehaviour {
     
     void AutoTurn(Vector3 pos) {
         Vector3 angle = LookRotation(pos - barrel.transform.position);
-        print(name + barrel.transform.position);
+        //print(name + barrel.transform.position);
         //Quaternion yawQuaternion = Quaternion.Euler(new Vector3(0, angle.y, 0));
         //Quaternion pitchQuaternion = Quaternion.Euler(new Vector3(angle.x, 0, angle.z));
         //transform.rotation = Quaternion.Slerp(transform.rotation, yawQuaternion, rotateSpeed * Time.deltaTime);
