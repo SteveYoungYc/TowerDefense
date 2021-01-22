@@ -11,8 +11,7 @@ public class RoadManager : MonoBehaviour
         roads = GameObject.FindGameObjectsWithTag("Road");
         foreach (var road in roads)
         {
-            
-            print(road.name + road.transform.position);
+            //print(road.name + road.transform.position);
         }
     }
 

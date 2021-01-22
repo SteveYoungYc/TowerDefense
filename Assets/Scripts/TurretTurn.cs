@@ -7,7 +7,6 @@ public class TurretTurn : MonoBehaviour {
     
     private Vector3 leftRight;
     private Vector3 upDown;
-    //private Vector3 pos;
     private const float rotateSpeed = 100f;
 
     private GameObject barrel;
