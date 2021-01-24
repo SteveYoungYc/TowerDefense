@@ -15,7 +15,7 @@ public class EnemyGenerator : MonoBehaviour
 
     private Animator[] enemyAnimator;
 
-    private NavMeshAgent nav;
+    private NavMeshAgent[] navAgents;
 
     private Camera mainCamera;
 
@@ -24,6 +24,7 @@ public class EnemyGenerator : MonoBehaviour
     {
         enemyClone = new GameObject[enemyNum];
         enemyAnimator = new Animator[enemyNum];
+        navAgents = new NavMeshAgent[enemyNum];
         enemyClone[0] = Instantiate(enemyPrefab, new Vector3(0, -0.1f, 0), Quaternion.identity);
         enemyClone[1] = Instantiate(enemyPrefab, new Vector3(2, -0.1f, 0), Quaternion.identity);
         enemyClone[2] = Instantiate(enemyPrefab, new Vector3(4, -0.1f, 0), Quaternion.identity);
@@ -32,24 +33,16 @@ public class EnemyGenerator : MonoBehaviour
             enemyAnimator[i] = enemyClone[i].GetComponent<Animator>();
             enemyAnimator[i].runtimeAnimatorController = animatorController;
             enemyClone[i].AddComponent<NavMeshAgent>();
+            navAgents[i] = enemyClone[i].GetComponent<NavMeshAgent>();
         }
 
         mainCamera = Camera.main;
-        //nav = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
         FindPath();
-        if (Input.GetMouseButton(1)) //右键
-        {
-            //enemyAnimator[0].SetBool("startRun", true);
-        }
-        else
-        {
-            //enemyAnimator[0].SetBool("startRun", false);
-        }
     }
 
     private void FindPath()
@@ -61,11 +54,17 @@ public class EnemyGenerator : MonoBehaviour
             bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
             if (isCollider)
             {
-                enemyClone[0].GetComponent<NavMeshAgent>().SetDestination(hit.point);
+                foreach (var nav in navAgents)
+                {
+                    nav.SetDestination(hit.point);
+                }
             }
         }
-        enemyAnimator[0].SetBool("startRun",
-            !(Vector3.Distance(enemyClone[0].transform.position,
-                enemyClone[0].GetComponent<NavMeshAgent>().destination) < 0.1));
+
+        for (int i = 0; i < enemyNum; i++)
+        {
+            enemyAnimator[i].SetBool("startRun",
+                !(Vector3.Distance(enemyClone[i].transform.position, navAgents[i].destination) < 0.3 * enemyNum));
+        }
     }
 }
