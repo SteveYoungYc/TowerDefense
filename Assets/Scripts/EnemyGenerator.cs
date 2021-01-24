@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyGenerator : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class EnemyGenerator : MonoBehaviour
     private int enemyNum = 3;
 
     private Animator[] enemyAnimator;
+
+    private NavMeshAgent nav;
+
+    private Camera mainCamera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,19 +31,41 @@ public class EnemyGenerator : MonoBehaviour
         {
             enemyAnimator[i] = enemyClone[i].GetComponent<Animator>();
             enemyAnimator[i].runtimeAnimatorController = animatorController;
+            enemyClone[i].AddComponent<NavMeshAgent>();
         }
+
+        mainCamera = Camera.main;
+        //nav = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        FindPath();
         if (Input.GetMouseButton(1)) //右键
         {
-            enemyAnimator[0].SetBool("startRun", true);
+            //enemyAnimator[0].SetBool("startRun", true);
         }
         else
         {
-            enemyAnimator[0].SetBool("startRun", false);
+            //enemyAnimator[0].SetBool("startRun", false);
         }
+    }
+
+    private void FindPath()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
+            if (isCollider)
+            {
+                enemyClone[0].GetComponent<NavMeshAgent>().SetDestination(hit.point);
+            }
+        }
+        enemyAnimator[0].SetBool("startRun",
+            !(Vector3.Distance(enemyClone[0].transform.position,
+                enemyClone[0].GetComponent<NavMeshAgent>().destination) < 0.1));
     }
 }
