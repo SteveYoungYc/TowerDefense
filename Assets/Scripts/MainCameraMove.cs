@@ -8,8 +8,6 @@ public class MainCameraMove : MonoBehaviour {
     private CharacterController m_ch;
     //角色移动速度
     private float m_movSpeed = 8.0f;
-    //重力
-    private float m_gravity = 10.0f;
     //摄像机Transform
     private Transform m_camTransform;
     //摄像机旋转角度
@@ -18,20 +16,6 @@ public class MainCameraMove : MonoBehaviour {
     private float m_camHeight = 0.1f;
     //修改Start函数, 初始化摄像机的位置和旋转角度
     private readonly float upDownAcc = 15.0f;
-
-    private float shootTimer = 0.0f;
-    private GameObject enemy;
-    private bool isEnenmyDie = true;
-
-    public List<Vector3> hitPosList;
-    public List<float> hitAngleList;
-    private int viewFieldLevel = 0;
-    private int[] viewFields = {60 ,40, 30};
-
-    private void Awake() {
-        hitPosList = new List<Vector3>();
-        hitAngleList = new List<float>();
-    }
 
     void Start() {
         m_transform = this.transform;
@@ -46,8 +30,10 @@ public class MainCameraMove : MonoBehaviour {
         m_camTransform.rotation = m_transform.rotation;
         m_camRot = m_camTransform.eulerAngles;
         //锁定鼠标
-        Screen.lockCursor = true;
-        this.gameObject.tag = "Enemy";
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        //Screen.lockCursor = true;
+        //this.gameObject.tag = "Enemy";
     }
 
     void Update() {

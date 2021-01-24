@@ -13,11 +13,14 @@ public class TurretTurn : MonoBehaviour {
     private GameObject turretBase;
     private GameObject enemy;
 
+    private bool hasEnemy;
+
     // Start is called before the first frame update
     void Start() {
         barrel = transform.Find("gun barrel").gameObject;
             //GameObject.FindGameObjectWithTag("TurretBarrel");
         enemy = GameObject.FindGameObjectWithTag("Enemy");
+        if (enemy != null) hasEnemy = true;
     }
 
     void ManualTurn() {
@@ -80,6 +83,13 @@ public class TurretTurn : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //ManualTurn();
-        AutoTurn(enemy.transform.position);
+        if (hasEnemy)
+        {
+            AutoTurn(enemy.transform.position);
+        }
+        else
+        {
+            
+        }
     }
 }
