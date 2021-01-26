@@ -8,11 +8,11 @@ public class EnemyGenerator : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public AnimatorController animatorController;
-    private GameObject[,] enemyClone;
+    private static GameObject[,] enemyClone;
     private int enemyNum = 10;
-    private Animator[,] enemyAnimator;
+    private static Animator[,] enemyAnimator;
 
-    private NavMeshAgent[,] navAgents;
+    private static NavMeshAgent[,] navAgents;
     private Camera mainCamera;
 
     private int bornPointsNum = 3;
@@ -20,6 +20,9 @@ public class EnemyGenerator : MonoBehaviour
 
     private Vector3[] bornPoints;
 
+    //public delegate EnemyIndexInfo EnemyDeathAction();
+
+    //public static event EnemyDeathAction EnemyDeath;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,16 +42,19 @@ public class EnemyGenerator : MonoBehaviour
             {
                 enemyClone[i, j] = Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity);
                 enemyClone[i, j].tag = "Enemy";
+                enemyClone[i, j].AddComponent<NavMeshAgent>();
+                enemyClone[i, j].AddComponent<EnemyProperty>();
+                enemyClone[i, j].GetComponent<EnemyProperty>().GetInfo(i, j);
+
                 enemyAnimator[i, j] = enemyClone[i, j].GetComponent<Animator>();
                 enemyAnimator[i, j].runtimeAnimatorController = animatorController;
-                enemyClone[i, j].AddComponent<NavMeshAgent>();
+
                 navAgents[i, j] = enemyClone[i, j].GetComponent<NavMeshAgent>();
                 navAgents[i, j].destination = destination;
             }
         }
 
         mainCamera = Camera.main;
-        print("Start finished");
     }
 
     // Update is called once per frame
@@ -81,5 +87,10 @@ public class EnemyGenerator : MonoBehaviour
                     !(Vector3.Distance(enemyClone[i, j].transform.position, navAgents[i, j].destination) < 0.3 * enemyNum));
             }
         }
+    }
+
+    public static void OneEnemyDie(EnemyIndexInfo index)
+    {
+        
     }
 }

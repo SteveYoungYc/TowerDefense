@@ -57,6 +57,8 @@
      <Compile Include="Assets\Scripts\EnemyGenerator.cs" />
      <Compile Include="Assets\Scripts\MainCameraMove.cs" />
      <Compile Include="Assets\Scripts\EnemyMove.cs" />
+     <Compile Include="Assets\Scripts\EnemyProperty.cs" />
+     <Compile Include="Assets\Scripts\EnemyIndexInfo.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity/TowerDefense/TowerDefense/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
