@@ -31,6 +31,8 @@ public class EnemyProperty : MonoBehaviour
         enemyIndexInfo = new EnemyIndexInfo();
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+
+        TurretShoot.ShootAction += Hit;
         
         mainCamera = Camera.main;
     }
@@ -38,19 +40,9 @@ public class EnemyProperty : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsDead())
-        {
-            EnemyGenerator.OneEnemyDie(enemyIndexInfo);
-            Destroy(gameObject);
-        }
-        
-        //if (state == HitState.Laser)
-        //{
-            //HP -= Time.deltaTime * 20;
-        //}
-
         Move();
         AnimationControl();
+        //Hit();
     }
 
     private void Move()
@@ -71,6 +63,21 @@ public class EnemyProperty : MonoBehaviour
     {
         animator.SetBool("startRun", !(Vector3.Distance(transform.position, navMeshAgent.destination) < 1));
     }
+
+    private void Hit(int type)
+    {
+        if (IsDead())
+        {
+            TurretShoot.ShootAction -= Hit;
+            EnemyGenerator.OneEnemyDie(enemyIndexInfo);
+            Destroy(gameObject);
+        }
+        
+        if (type == 1)
+        {
+            HP -= Time.deltaTime * 50;
+        }
+    }
     
     private bool IsDead()
     {
@@ -83,10 +90,5 @@ public class EnemyProperty : MonoBehaviour
         enemyIndexInfo.j = j;
         //numInfo.bornPointsNum = bornPointsNum;
         //numInfo.enemyPointsNum = enemyNum;
-    }
-
-    private EnemyIndexInfo DestroyEnemy()
-    {
-        return enemyIndexInfo;
     }
 }

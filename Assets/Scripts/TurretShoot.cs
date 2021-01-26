@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretShoot : MonoBehaviour {
+public class TurretShoot : MonoBehaviour
+{
     private GameObject barrel;
     private GameObject gunBarrel;
     private Vector3 toward;
@@ -14,12 +15,17 @@ public class TurretShoot : MonoBehaviour {
 
     private AudioClip laserAudioClip;
     private AudioSource laseAudioSource;
-    public void ShowMsg(string msg) {
+    
+    public delegate void Shoot(int type);
+    public static event Shoot ShootAction;
+    public void ShowMsg(string msg)
+    {
         findEnemy = msg == "1";
     }
     
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         barrel = transform.Find("gun barrel").gameObject;
         gunBarrel = barrel.transform.Find("Cylinder").gameObject;
         
@@ -40,8 +46,10 @@ public class TurretShoot : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
-        if (findEnemy) {
+    void Update()
+    {
+        if (findEnemy)
+        {
             toward = new Vector3(Mathf.Sin(this.transform.eulerAngles.y / 180f * Mathf.PI),
                 Mathf.Tan(-barrel.transform.localEulerAngles.x / 180f * Mathf.PI),
                 Mathf.Cos(this.transform.eulerAngles.y / 180f * Mathf.PI));
@@ -49,15 +57,20 @@ public class TurretShoot : MonoBehaviour {
             RaycastHit hit;
             laseAudioSource.mute = false;
             
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) {
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
                 //Debug.Log("碰撞对象: " + hit.collider.name);
                 Debug.DrawLine(ray.origin, hit.point, Color.red);
                 laser.SetPosition(1, hit.point);
             }
+
+            ShootAction(1);
         }
-        else {
+        else
+        {
             laseAudioSource.mute = true;
             laser.SetPosition(1, barrel.transform.position);
+            //ShootAction(0);
         }
     }
 }

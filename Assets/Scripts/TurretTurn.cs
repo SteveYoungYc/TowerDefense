@@ -83,6 +83,17 @@ public class TurretTurn : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //ManualTurn();
+        if (enemy == null)
+        {
+            hasEnemy = false;
+            SendMessage("ShowMsg", "0");
+        }
+        else
+        {
+            hasEnemy = true;
+            SendMessage("ShowMsg", "1");
+        }        
+        
         if (hasEnemy)
         {
             AutoTurn(enemy.transform.position);
