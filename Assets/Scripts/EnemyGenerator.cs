@@ -8,27 +8,21 @@ public class EnemyGenerator : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public AnimatorController animatorController;
-    private static GameObject[,] enemyClone;
+    
+    private static List<List<GameObject>> enemyClone;
+    
     private int enemyNum = 10;
-    private static Animator[,] enemyAnimator;
-
-    private static NavMeshAgent[,] navAgents;
-    private Camera mainCamera;
-
     private int bornPointsNum = 3;
-    private Vector3 destination;
-
     private Vector3[] bornPoints;
-
+    
+    private Vector3 destination;
     //public delegate EnemyIndexInfo EnemyDeathAction();
 
     //public static event EnemyDeathAction EnemyDeath;
     // Start is called before the first frame update
     void Start()
     {
-        enemyClone = new GameObject[bornPointsNum, enemyNum];
-        enemyAnimator = new Animator[bornPointsNum, enemyNum];
-        navAgents = new NavMeshAgent[bornPointsNum, enemyNum];
+        enemyClone = new List<List<GameObject>>();
         bornPoints = new Vector3[bornPointsNum];
 
         destination = new Vector3(-24.83f, 0.99f, -58.83f);
@@ -38,59 +32,30 @@ public class EnemyGenerator : MonoBehaviour
 
         for (int i = 0; i < bornPointsNum; i++)
         {
+            enemyClone.Add(new List<GameObject>());
+
             for (int j = 0; j < enemyNum; j++)
             {
-                enemyClone[i, j] = Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity);
-                enemyClone[i, j].tag = "Enemy";
-                enemyClone[i, j].AddComponent<NavMeshAgent>();
-                enemyClone[i, j].AddComponent<EnemyProperty>();
-                enemyClone[i, j].GetComponent<EnemyProperty>().GetInfo(i, j);
-
-                enemyAnimator[i, j] = enemyClone[i, j].GetComponent<Animator>();
-                enemyAnimator[i, j].runtimeAnimatorController = animatorController;
-
-                navAgents[i, j] = enemyClone[i, j].GetComponent<NavMeshAgent>();
-                navAgents[i, j].destination = destination;
+                enemyClone[i].Add(Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity));
+                enemyClone[i][j].tag = "Enemy";
+                enemyClone[i][j].AddComponent<NavMeshAgent>();
+                enemyClone[i][j].AddComponent<EnemyProperty>();
+                enemyClone[i][j].GetComponent<EnemyProperty>().GetInfo(i, j);
+                
+                enemyClone[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
+                enemyClone[i][j].GetComponent<NavMeshAgent>().destination = destination;
             }
         }
-
-        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
-        FindPath();
-    }
-
-    private void FindPath()
-    {
-        if (Input.GetMouseButton(1))
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
-            if (isCollider)
-            {
-                foreach (var nav in navAgents)
-                {
-                    nav.SetDestination(hit.point);
-                }
-            }
-        }
-
-        for (int i = 0; i < bornPointsNum; i++)
-        {
-            for (int j = 0; j < enemyNum; j++)
-            {
-                enemyAnimator[i, j].SetBool("startRun",
-                    !(Vector3.Distance(enemyClone[i, j].transform.position, navAgents[i, j].destination) < 0.3 * enemyNum));
-            }
-        }
+        
     }
 
     public static void OneEnemyDie(EnemyIndexInfo index)
     {
-        
+        enemyClone[index.i][index.j] = null;
     }
 }

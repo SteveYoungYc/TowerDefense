@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyProperty : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class EnemyProperty : MonoBehaviour
 
     private EnemyIndexInfo enemyIndexInfo;
 
+    private Animator animator;
+    private NavMeshAgent navMeshAgent;
+
+    private Camera mainCamera;
     private enum HitState
     {
         None,
@@ -21,8 +26,13 @@ public class EnemyProperty : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemyIndexInfo = new EnemyIndexInfo();
         HP = 100f;
+        
+        enemyIndexInfo = new EnemyIndexInfo();
+        animator = GetComponent<Animator>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        
+        mainCamera = Camera.main;
     }
 
     // Update is called once per frame
@@ -31,15 +41,37 @@ public class EnemyProperty : MonoBehaviour
         if (IsDead())
         {
             EnemyGenerator.OneEnemyDie(enemyIndexInfo);
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
         
         //if (state == HitState.Laser)
         //{
-            HP -= Time.deltaTime * 50;
+            //HP -= Time.deltaTime * 20;
         //}
+
+        Move();
+        AnimationControl();
     }
 
+    private void Move()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
+            if (isCollider)
+            {
+                navMeshAgent.SetDestination(hit.point);
+            }
+        }
+    }
+
+    private void AnimationControl()
+    {
+        animator.SetBool("startRun", !(Vector3.Distance(transform.position, navMeshAgent.destination) < 1));
+    }
+    
     private bool IsDead()
     {
         return HP <= 0;
