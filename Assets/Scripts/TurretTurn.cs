@@ -11,18 +11,32 @@ public class TurretTurn : MonoBehaviour {
 
     private GameObject barrel;
     private GameObject turretBase;
-    private GameObject enemy;
 
     private bool hasEnemy;
+    private int enemyHitIndex;
 
+    public delegate void Shoot(int type, Vector3 pos);
+    public static event Shoot ShootAction;
     // Start is called before the first frame update
     void Start() {
         barrel = transform.Find("gun barrel").gameObject;
-            //GameObject.FindGameObjectWithTag("TurretBarrel");
-        enemy = GameObject.FindGameObjectWithTag("Enemy");
-        if (enemy != null) hasEnemy = true;
     }
-
+    
+    // Update is called once per frame
+    void Update() {
+        //ManualTurn();
+        if (EnemyManager.MostThreatening() == null)
+        {
+            hasEnemy = false;
+            //AutoTurn(Vector3.back);
+        }
+        else
+        {
+            hasEnemy = true;
+            AutoTurn(EnemyManager.MostThreatening().transform.position);
+        }
+    }
+    
     void ManualTurn() {
         if (Input.GetKey(KeyCode.W)) {
             upDown = new Vector3(-rotateSpeed * Time.deltaTime, 0, 0);
@@ -55,16 +69,14 @@ public class TurretTurn : MonoBehaviour {
         //transform.rotation = Quaternion.Slerp(transform.rotation, yawQuaternion, rotateSpeed * Time.deltaTime);
         //barrel.transform.rotation = Quaternion.Slerp(barrel.transform.rotation, pitchQuaternion, rotateSpeed * Time.deltaTime);
         if (Vector3.Distance(pos, transform.position) < 10) {
-            SendMessage("ShowMsg", "1");
             transform.localEulerAngles = new Vector3(0, angle.y, 0);
             barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
+            ShootAction(1, pos);
         }
-        else {
-            SendMessage("ShowMsg", "0");
-        }
+        SendMessage("ShowMsg", hasEnemy);
     }
     
-    public Vector3 LookRotation(Vector3 fromDir) {
+    private Vector3 LookRotation(Vector3 fromDir) {
         Vector3 eulerAngles = new Vector3();
  
         //AngleX = arc cos(sqrt((x^2 + z^2)/(x^2+y^2+z^2)))
@@ -80,27 +92,4 @@ public class TurretTurn : MonoBehaviour {
         return eulerAngles;
     }
     
-    // Update is called once per frame
-    void Update() {
-        //ManualTurn();
-        if (enemy == null)
-        {
-            hasEnemy = false;
-            SendMessage("ShowMsg", "0");
-        }
-        else
-        {
-            hasEnemy = true;
-            SendMessage("ShowMsg", "1");
-        }        
-        
-        if (hasEnemy)
-        {
-            AutoTurn(enemy.transform.position);
-        }
-        else
-        {
-            
-        }
-    }
 }

@@ -16,11 +16,9 @@ public class TurretShoot : MonoBehaviour
     private AudioClip laserAudioClip;
     private AudioSource laseAudioSource;
     
-    public delegate void Shoot(int type);
-    public static event Shoot ShootAction;
-    public void ShowMsg(string msg)
+    public void ShowMsg(bool msg)
     {
-        findEnemy = msg == "1";
+        findEnemy = msg;
     }
     
     // Start is called before the first frame update
@@ -28,21 +26,9 @@ public class TurretShoot : MonoBehaviour
     {
         barrel = transform.Find("gun barrel").gameObject;
         gunBarrel = barrel.transform.Find("Cylinder").gameObject;
-        
-        laser = GetComponent<LineRenderer>();
-        laser.positionCount = 2;
-        laser.startWidth = 0.08f;
-        laser.endWidth = 0.08f;
-        laser.startColor = Color.magenta;
-        laser.endColor = Color.cyan;
-        laser.SetPosition(0, barrel.transform.position);
-        
-        laserAudioClip = Resources.Load<AudioClip>("Audio/LaserShoot1");
-        laseAudioSource = gameObject.GetComponent<AudioSource>();
-        laseAudioSource.clip = laserAudioClip;
-        laseAudioSource.volume = 0.8f;
-        laseAudioSource.loop = true;
-        laseAudioSource.Play();
+
+        LaserSetup();
+        AudioSetup();
     }
 
     // Update is called once per frame
@@ -64,7 +50,7 @@ public class TurretShoot : MonoBehaviour
                 laser.SetPosition(1, hit.point);
             }
 
-            ShootAction(1);
+            //ShootAction(1, e);
         }
         else
         {
@@ -72,5 +58,26 @@ public class TurretShoot : MonoBehaviour
             laser.SetPosition(1, barrel.transform.position);
             //ShootAction(0);
         }
+    }
+
+    void LaserSetup()
+    {
+        laser = GetComponent<LineRenderer>();
+        laser.positionCount = 2;
+        laser.startWidth = 0.08f;
+        laser.endWidth = 0.08f;
+        laser.startColor = Color.magenta;
+        laser.endColor = Color.cyan;
+        laser.SetPosition(0, barrel.transform.position);
+    }
+
+    void AudioSetup()
+    {
+        laserAudioClip = Resources.Load<AudioClip>("Audio/LaserShoot1");
+        laseAudioSource = gameObject.GetComponent<AudioSource>();
+        laseAudioSource.clip = laserAudioClip;
+        laseAudioSource.volume = 0.8f;
+        laseAudioSource.loop = true;
+        laseAudioSource.Play();
     }
 }

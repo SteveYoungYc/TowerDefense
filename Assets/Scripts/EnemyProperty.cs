@@ -10,7 +10,7 @@ public class EnemyProperty : MonoBehaviour
 
     private HitState state;
 
-    private EnemyIndexInfo enemyIndexInfo;
+    private EnemyIndex enemyIndexInfo;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -28,11 +28,11 @@ public class EnemyProperty : MonoBehaviour
     {
         HP = 100f;
         
-        enemyIndexInfo = new EnemyIndexInfo();
+        enemyIndexInfo = new EnemyIndex();
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-        TurretShoot.ShootAction += Hit;
+        TurretTurn.ShootAction += Hit;
         
         mainCamera = Camera.main;
     }
@@ -64,12 +64,13 @@ public class EnemyProperty : MonoBehaviour
         animator.SetBool("startRun", !(Vector3.Distance(transform.position, navMeshAgent.destination) < 1));
     }
 
-    private void Hit(int type)
+    private void Hit(int type, Vector3 pos)
     {
+        if(pos != transform.position) return;
         if (IsDead())
         {
-            TurretShoot.ShootAction -= Hit;
-            EnemyGenerator.OneEnemyDie(enemyIndexInfo);
+            TurretTurn.ShootAction -= Hit;
+            EnemyManager.OneEnemyDie(enemyIndexInfo);
             Destroy(gameObject);
         }
         
