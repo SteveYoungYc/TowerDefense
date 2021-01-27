@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -11,16 +12,17 @@ public class EnemyManager : MonoBehaviour
     public AnimatorController animatorController;
     
     private static List<List<GameObject>> enemyClone;
-    private List<Vector3> bornPoints;
+    private static List<Vector3> bornPoints;
     
-    private static int enemyNum = 1;
+    private static int enemyNum = 2;
 
-    private Vector3 destination;
+    private static Vector3 destination;
 
     private static Dictionary<EnemyIndex, float> distanceList;
 
     public static float minDis;
     public float min;
+    public int disCount;
     
     // Start is called before the first frame update
     void Start()
@@ -57,18 +59,35 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         min = minDis;
+        disCount = distanceList.Count;
     }
 
     public static void OneEnemyDie(EnemyIndex index)
     {
-        distanceList[index] = Mathf.Infinity;
-        enemyClone[index.i][index.j] = null;
+        //distanceList[index] = Mathf.Infinity;
+        //distanceList.OrderBy(kvp => kvp.Value);
+        //enemyClone[index.i][index.j] = null;
     }
 
     public static GameObject MostThreatening()
     {
+        UpdateDistance();
+        if (distanceList.Count == 0) return null;
         var index = distanceList.OrderBy(kvp => kvp.Value).First();
         minDis = index.Value;
         return enemyClone[index.Key.i][index.Key.j];
+    }
+
+    private static void UpdateDistance()
+    {
+        distanceList = new Dictionary<EnemyIndex, float>();
+        for (int i = 0; i < bornPoints.Count; i++)
+        {
+            for (int j = 0; j < enemyNum; j++)
+            {
+                if(!enemyClone[i][j].gameObject.activeInHierarchy) continue;
+                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemyClone[i][j].transform.position, destination));
+            }
+        }
     }
 }

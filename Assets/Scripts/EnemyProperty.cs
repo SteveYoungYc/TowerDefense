@@ -69,14 +69,14 @@ public class EnemyProperty : MonoBehaviour
         if(pos != transform.position) return;
         if (IsDead())
         {
-            TurretTurn.ShootAction -= Hit;
             EnemyManager.OneEnemyDie(enemyIndexInfo);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            TurretTurn.ShootAction -= Hit;
         }
         
         if (type == 1)
         {
-            HP -= Time.deltaTime * 50;
+            HP -= Time.deltaTime * 20;
         }
     }
     

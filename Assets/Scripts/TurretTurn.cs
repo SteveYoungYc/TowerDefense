@@ -68,11 +68,11 @@ public class TurretTurn : MonoBehaviour {
         //Quaternion pitchQuaternion = Quaternion.Euler(new Vector3(angle.x, 0, angle.z));
         //transform.rotation = Quaternion.Slerp(transform.rotation, yawQuaternion, rotateSpeed * Time.deltaTime);
         //barrel.transform.rotation = Quaternion.Slerp(barrel.transform.rotation, pitchQuaternion, rotateSpeed * Time.deltaTime);
-        if (Vector3.Distance(pos, transform.position) < 10) {
+        //if (Vector3.Distance(pos, transform.position) < 10) {
             transform.localEulerAngles = new Vector3(0, angle.y, 0);
             barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
             ShootAction(1, pos);
-        }
+        //}
         SendMessage("ShowMsg", hasEnemy);
     }
     

@@ -49,14 +49,11 @@ public class TurretShoot : MonoBehaviour
                 Debug.DrawLine(ray.origin, hit.point, Color.red);
                 laser.SetPosition(1, hit.point);
             }
-
-            //ShootAction(1, e);
         }
         else
         {
             laseAudioSource.mute = true;
             laser.SetPosition(1, barrel.transform.position);
-            //ShootAction(0);
         }
     }
 
