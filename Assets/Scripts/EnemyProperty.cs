@@ -41,7 +41,7 @@ public class EnemyProperty : MonoBehaviour
         
         head.tag = "Head";
 
-        TurretTurn.ShootAction += Hit;
+        Turret.ShootAction += Hit;
         
         mainCamera = Camera.main;
     }
@@ -82,7 +82,7 @@ public class EnemyProperty : MonoBehaviour
         {
             EnemyManager.OneEnemyDie(enemyIndexInfo);
             gameObject.SetActive(false);
-            TurretTurn.ShootAction -= Hit;
+            Turret.ShootAction -= Hit;
         }
         
         if (type == 1)

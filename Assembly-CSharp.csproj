@@ -50,8 +50,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\TurretShoot.cs" />
-     <Compile Include="Assets\Scripts\TurretTurn.cs" />
+     <Compile Include="Assets\Scripts\Turret.cs" />
      <Compile Include="Assets\Scripts\RoadManager.cs" />
      <Compile Include="Assets\Scripts\BuildManager.cs" />
      <Compile Include="Assets\Scripts\EnemyManager.cs" />
