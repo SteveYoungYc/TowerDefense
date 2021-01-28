@@ -9,6 +9,7 @@ TagManager:
   - TurretBase
   - Enemy
   - Road
+  - Head
   layers:
   - Default
   - TransparentFX

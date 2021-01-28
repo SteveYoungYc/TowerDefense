@@ -23,7 +23,8 @@ public class TurretTurn : MonoBehaviour {
     }
     
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         //ManualTurn();
         if (EnemyManager.MostThreatening() == null)
         {
@@ -33,7 +34,8 @@ public class TurretTurn : MonoBehaviour {
         else
         {
             hasEnemy = true;
-            AutoTurn(EnemyManager.MostThreatening().transform.position);
+            AutoTurn(EnemyManager.MostThreatening().GetComponent<EnemyProperty>().aimPoint);
+            //AutoTurn(EnemyManager.MostThreatening().transform.position);
         }
     }
     
@@ -61,18 +63,17 @@ public class TurretTurn : MonoBehaviour {
         barrel.transform.Rotate(upDown,Space.Self);
     }
     
-    void AutoTurn(Vector3 pos) {
+    void AutoTurn(Vector3 pos)
+    {
         Vector3 angle = LookRotation(pos - barrel.transform.position);
         //print(name + barrel.transform.position);
         //Quaternion yawQuaternion = Quaternion.Euler(new Vector3(0, angle.y, 0));
         //Quaternion pitchQuaternion = Quaternion.Euler(new Vector3(angle.x, 0, angle.z));
         //transform.rotation = Quaternion.Slerp(transform.rotation, yawQuaternion, rotateSpeed * Time.deltaTime);
         //barrel.transform.rotation = Quaternion.Slerp(barrel.transform.rotation, pitchQuaternion, rotateSpeed * Time.deltaTime);
-        //if (Vector3.Distance(pos, transform.position) < 10) {
-            transform.localEulerAngles = new Vector3(0, angle.y, 0);
-            barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
-            ShootAction(1, pos);
-        //}
+        transform.localEulerAngles = new Vector3(0, angle.y, 0);
+        barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
+        ShootAction(1, pos);
         SendMessage("ShowMsg", hasEnemy);
     }
     

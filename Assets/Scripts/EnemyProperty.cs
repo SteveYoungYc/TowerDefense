@@ -16,6 +16,10 @@ public class EnemyProperty : MonoBehaviour
     private NavMeshAgent navMeshAgent;
 
     private Camera mainCamera;
+
+    private GameObject head;
+    public Vector3 aimPoint;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
     private enum HitState
     {
         None,
@@ -31,6 +35,11 @@ public class EnemyProperty : MonoBehaviour
         enemyIndexInfo = new EnemyIndex();
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        
+        head = transform.Find("Z_Head").gameObject;
+        skinnedMeshRenderer = head.GetComponent<SkinnedMeshRenderer>();
+        
+        head.tag = "Head";
 
         TurretTurn.ShootAction += Hit;
         
@@ -42,7 +51,8 @@ public class EnemyProperty : MonoBehaviour
     {
         Move();
         AnimationControl();
-        //Hit();
+        aimPoint = head.transform.position + skinnedMeshRenderer.bounds.center;
+        //print(aimPoint);
     }
 
     private void Move()
@@ -67,6 +77,7 @@ public class EnemyProperty : MonoBehaviour
     private void Hit(int type, Vector3 pos)
     {
         if(pos != transform.position) return;
+        
         if (IsDead())
         {
             EnemyManager.OneEnemyDie(enemyIndexInfo);
