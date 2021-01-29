@@ -4,13 +4,14 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyProperty : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float HP;
+    public bool isDead;
 
-    private HitState state;
+    //private HitState state;
 
-    private EnemyIndex enemyIndexInfo;
+    private EnemyIndex enemyIndex;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -19,7 +20,7 @@ public class EnemyProperty : MonoBehaviour
 
     private GameObject head;
     public Vector3 aimPoint;
-    private SkinnedMeshRenderer skinnedMeshRenderer;
+
     private enum HitState
     {
         None,
@@ -31,28 +32,37 @@ public class EnemyProperty : MonoBehaviour
     void Start()
     {
         HP = 100f;
-        
-        enemyIndexInfo = new EnemyIndex();
-        animator = GetComponent<Animator>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        
-        head = transform.Find("Z_Head").gameObject;
-        skinnedMeshRenderer = head.GetComponent<SkinnedMeshRenderer>();
-        
-        head.tag = "Head";
+        isDead = false;
 
-        Turret.ShootAction += Hit;
+        enemyIndex = new EnemyIndex();
+        animator = GetComponent<Animator>();
+        animator.SetBool("die", false);
+
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
+        head = transform.Find("Z_Head").gameObject;
+
+        head.tag = "Head";
         
+        Turret.ShootAction += Hit;
+
         mainCamera = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
-        AnimationControl();
-        aimPoint = head.transform.position + skinnedMeshRenderer.bounds.center;
-        //print(aimPoint);
+        if (!isDead)
+        {
+            Move();
+            AnimationControl();
+        }
+        else
+        {
+            StopMove();
+            StartCoroutine(Die());
+        }
+        //aimPoint = head.transform.position + skinnedMeshRenderer.bounds.center;
     }
 
     private void Move()
@@ -69,6 +79,11 @@ public class EnemyProperty : MonoBehaviour
         }
     }
 
+    private void StopMove()
+    {
+        navMeshAgent.SetDestination(transform.position);
+    }
+
     private void AnimationControl()
     {
         animator.SetBool("startRun", !(Vector3.Distance(transform.position, navMeshAgent.destination) < 1));
@@ -76,30 +91,34 @@ public class EnemyProperty : MonoBehaviour
 
     private void Hit(int type, Vector3 pos)
     {
-        if(pos != transform.position) return;
-        
-        if (IsDead())
-        {
-            EnemyManager.OneEnemyDie(enemyIndexInfo);
-            gameObject.SetActive(false);
-            Turret.ShootAction -= Hit;
-        }
-        
+        if (pos != transform.position) return;
         if (type == 1)
         {
             HP -= Time.deltaTime * 20;
         }
-    }
-    
-    private bool IsDead()
-    {
-        return HP <= 0;
+
+        if (HP <= 0)
+        {
+            isDead = true;
+            EnemyManager.OneEnemyDie(enemyIndex);
+            animator.SetBool("die", true);
+            Turret.ShootAction -= Hit;
+        }
     }
 
-    public void GetInfo(int i, int j)
+    private IEnumerator Die()
     {
-        enemyIndexInfo.i = i;
-        enemyIndexInfo.j = j;
+        yield return new WaitForSeconds(2.0f);
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Z_FallingForward"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void GetIndex(int i, int j)
+    {
+        enemyIndex.i = i;
+        enemyIndex.j = j;
         //numInfo.bornPointsNum = bornPointsNum;
         //numInfo.enemyPointsNum = enemyNum;
     }

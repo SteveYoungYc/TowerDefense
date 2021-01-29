@@ -11,7 +11,9 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemyPrefab;
     public AnimatorController animatorController;
     
-    private static List<List<GameObject>> enemyClone;
+    private static List<List<GameObject>> enemies;
+    private static List<List<bool>> enemyStates;
+    
     private static List<Vector3> bornPoints;
     
     private static int enemyNum = 20;
@@ -19,15 +21,12 @@ public class EnemyManager : MonoBehaviour
     private static Vector3 destination;
 
     private static Dictionary<EnemyIndex, float> distanceList;
-
-    public static float minDis;
-    public float min;
-    public int disCount;
     
     // Start is called before the first frame update
     void Start()
     {
-        enemyClone = new List<List<GameObject>>();
+        enemies = new List<List<GameObject>>();
+        enemyStates = new List<List<bool>>();
         bornPoints = new List<Vector3>();
         distanceList = new Dictionary<EnemyIndex, float>();
 
@@ -38,19 +37,22 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < bornPoints.Count; i++)
         {
-            enemyClone.Add(new List<GameObject>());
+            enemies.Add(new List<GameObject>());
+            enemyStates.Add(new List<bool>());
             for (int j = 0; j < enemyNum; j++)
             {
-                enemyClone[i].Add(Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity));
-                enemyClone[i][j].tag = "Enemy";
-                enemyClone[i][j].AddComponent<NavMeshAgent>();
-                enemyClone[i][j].AddComponent<EnemyProperty>();
+                enemies[i].Add(Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity));
+                enemies[i][j].tag = "Enemy";
+                enemies[i][j].AddComponent<NavMeshAgent>();
+                enemies[i][j].AddComponent<Enemy>();
                 
-                enemyClone[i][j].GetComponent<EnemyProperty>().GetInfo(i, j);
-                enemyClone[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
-                enemyClone[i][j].GetComponent<NavMeshAgent>().destination = destination;
+                enemies[i][j].GetComponent<Enemy>().GetIndex(i, j);
+                enemies[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
+                enemies[i][j].GetComponent<NavMeshAgent>().destination = destination;
                 
-                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemyClone[i][j].transform.position, destination));
+                enemyStates[i].Add(true);
+                
+                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemies[i][j].transform.position, destination));
             }
         }
     }
@@ -58,15 +60,12 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        min = minDis;
-        disCount = distanceList.Count;
+
     }
 
     public static void OneEnemyDie(EnemyIndex index)
     {
-        //distanceList[index] = Mathf.Infinity;
-        //distanceList.OrderBy(kvp => kvp.Value);
-        //enemyClone[index.i][index.j] = null;
+        enemyStates[index.i][index.j] = false;
     }
 
     public static GameObject MostThreatening()
@@ -74,8 +73,7 @@ public class EnemyManager : MonoBehaviour
         UpdateDistance();
         if (distanceList.Count == 0) return null;
         var index = distanceList.OrderBy(kvp => kvp.Value).First();
-        minDis = index.Value;
-        return enemyClone[index.Key.i][index.Key.j];
+        return enemies[index.Key.i][index.Key.j];
     }
 
     private static void UpdateDistance()
@@ -85,8 +83,11 @@ public class EnemyManager : MonoBehaviour
         {
             for (int j = 0; j < enemyNum; j++)
             {
-                if(!enemyClone[i][j].gameObject.activeInHierarchy) continue;
-                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemyClone[i][j].transform.position, destination));
+                if (!enemyStates[i][j])
+                {
+                    continue;
+                }
+                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemies[i][j].transform.position, destination));
             }
         }
     }

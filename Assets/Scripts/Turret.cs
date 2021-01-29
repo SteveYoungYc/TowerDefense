@@ -36,16 +36,14 @@ public class Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EnemyManager.MostThreatening() == null)
+        if (EnemyManager.MostThreatening() != null) // && !EnemyManager.MostThreatening().GetComponent<Enemy>().isDead
         {
-            hasEnemy = false;
-            //AutoTurn(Vector3.back);
+            hasEnemy = true;
+            AutoTurn(EnemyManager.MostThreatening().transform.position);
         }
         else
         {
-            hasEnemy = true;
-            //AutoTurn(EnemyManager.MostThreatening().GetComponent<EnemyProperty>().aimPoint);
-            AutoTurn(EnemyManager.MostThreatening().transform.position);
+            hasEnemy = false; 
         }
 
         Shoot();
@@ -108,7 +106,7 @@ public class Turret : MonoBehaviour
                 }
                 laser.forceRenderingOff = false;
                 laseAudioSource.mute = false;
-                Debug.DrawLine(ray.origin, hit.point, Color.red);
+                //Debug.DrawLine(ray.origin, hit.point, Color.red);
                 laser.SetPosition(1, hit.point);
             }
         }
