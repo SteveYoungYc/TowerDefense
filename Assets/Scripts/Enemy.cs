@@ -109,10 +109,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator Die()
     {
         yield return new WaitForSeconds(2.0f);
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Z_FallingForward"))
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
     }
 
     public void GetIndex(int i, int j)

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainCameraMove : MonoBehaviour {
+public class Player : MonoBehaviour
+{
     public Transform m_transform;
     //角色控制器组件
     private CharacterController m_ch;
@@ -17,7 +18,8 @@ public class MainCameraMove : MonoBehaviour {
     //修改Start函数, 初始化摄像机的位置和旋转角度
     private readonly float upDownAcc = 15.0f;
 
-    void Start() {
+    void Start()
+    {
         m_transform = this.transform;
         m_transform.position = new Vector3(51.0f, 3.17f, 4.75f);
         //获取角色控制器组件
@@ -37,31 +39,39 @@ public class MainCameraMove : MonoBehaviour {
         //this.gameObject.tag = "Enemy";
     }
 
-    void Update() {
+    void Update()
+    {
         Move();
     }
 
-    private void Move() {
+    private void Move()
+    {
         //定义3个值控制移动
         float xm = 0, ym = 0, zm = 0;
         //前后左右移动
-        if (Input.GetKey(KeyCode.W)) {
+        if (Input.GetKey(KeyCode.W))
+        {
             zm += m_movSpeed * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.S)) {
+        else if (Input.GetKey(KeyCode.S))
+        {
             zm -= m_movSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.A))
+        {
             xm -= m_movSpeed * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.D)) {
+        else if (Input.GetKey(KeyCode.D))
+        {
             xm += m_movSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.Space))
+        {
             ym += upDownAcc * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.LeftShift)) {
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
             ym -= upDownAcc * Time.deltaTime;
         }
 

@@ -94,7 +94,7 @@ public class Turret : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit))
             {
-                print(hit.collider.name);
+                //print(hit.collider.name);
                 if (!hit.collider.CompareTag("Head"))
                 {
                     //laser.forceRenderingOff = true;
@@ -107,8 +107,6 @@ public class Turret : MonoBehaviour
                 }
                 laser.forceRenderingOff = false;
                 laseAudioSource.mute = true;
-                laser.startColor = Color.cyan;
-                laser.endColor = Color.cyan;
                 //Debug.DrawLine(ray.origin, hit.point, Color.red);
                 if(EnemyManager.MostThreatening() == null) return;
                 laser.SetPosition(1, aimPos);
@@ -127,7 +125,6 @@ public class Turret : MonoBehaviour
         laser.positionCount = 2;
         laser.startWidth = 0.08f;
         laser.endWidth = 0.08f;
-        //laser.material = new Material(Shader.Find("Particles/Additive"));
         laser.startColor = Color.cyan;
         laser.endColor = Color.cyan;
         laser.SetPosition(0, barrel.transform.position);
