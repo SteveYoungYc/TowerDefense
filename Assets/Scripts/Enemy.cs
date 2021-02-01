@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         HP = 100f;
         isDead = false;
 
-        enemyIndex = new EnemyIndex();
+        //enemyIndex = new EnemyIndex(); 这一条语句后于GetIndex中的
         animator = GetComponent<Animator>();
         animator.SetBool("die", false);
 
@@ -117,8 +117,7 @@ public class Enemy : MonoBehaviour
 
     public void GetIndex(int i, int j)
     {
-        enemyIndex.i = i;
-        enemyIndex.j = j;
+        enemyIndex = new EnemyIndex(i, j);
         //numInfo.bornPointsNum = bornPointsNum;
         //numInfo.enemyPointsNum = enemyNum;
     }

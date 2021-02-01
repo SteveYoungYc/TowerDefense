@@ -7,6 +7,7 @@ public class Turret : MonoBehaviour
     private Vector3 leftRight;
     private Vector3 upDown;
     private Vector3 toward;
+    private Vector3 aimPos;
     
     private const float rotateSpeed = 100f;
 
@@ -45,7 +46,6 @@ public class Turret : MonoBehaviour
         {
             hasEnemy = false; 
         }
-
         Shoot();
     }
     
@@ -75,7 +75,8 @@ public class Turret : MonoBehaviour
     
     private void AutoTurn(Vector3 pos)
     {
-        Vector3 angle = LookRotation(pos - barrel.transform.position);
+        aimPos = pos + new Vector3(0, 1, 0);
+        Vector3 angle = LookRotation(aimPos - barrel.transform.position);
         transform.localEulerAngles = new Vector3(0, angle.y, 0);
         barrel.transform.localEulerAngles = new Vector3(angle.x, 0, angle.z);
         ShootAction(1, pos);
@@ -91,9 +92,9 @@ public class Turret : MonoBehaviour
             ray = new Ray(gunBarrel.transform.position, Vector3.Normalize(toward));
             RaycastHit hit;
             
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hit))
             {
-                //print(hit.collider.name);
+                print(hit.collider.name);
                 if (!hit.collider.CompareTag("Head"))
                 {
                     //laser.forceRenderingOff = true;
@@ -105,9 +106,12 @@ public class Turret : MonoBehaviour
                     //print(hit.collider.tag);
                 }
                 laser.forceRenderingOff = false;
-                laseAudioSource.mute = false;
+                laseAudioSource.mute = true;
+                laser.startColor = Color.cyan;
+                laser.endColor = Color.cyan;
                 //Debug.DrawLine(ray.origin, hit.point, Color.red);
-                laser.SetPosition(1, hit.point);
+                if(EnemyManager.MostThreatening() == null) return;
+                laser.SetPosition(1, aimPos);
             }
         }
         else
@@ -123,7 +127,8 @@ public class Turret : MonoBehaviour
         laser.positionCount = 2;
         laser.startWidth = 0.08f;
         laser.endWidth = 0.08f;
-        laser.startColor = Color.magenta;
+        //laser.material = new Material(Shader.Find("Particles/Additive"));
+        laser.startColor = Color.cyan;
         laser.endColor = Color.cyan;
         laser.SetPosition(0, barrel.transform.position);
     }

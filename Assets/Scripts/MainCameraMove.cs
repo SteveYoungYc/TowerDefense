@@ -19,6 +19,7 @@ public class MainCameraMove : MonoBehaviour {
 
     void Start() {
         m_transform = this.transform;
+        m_transform.position = new Vector3(51.0f, 3.17f, 4.75f);
         //获取角色控制器组件
         m_ch = this.GetComponent<CharacterController>();
         //获取摄像机

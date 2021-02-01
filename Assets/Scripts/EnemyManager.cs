@@ -16,14 +16,14 @@ public class EnemyManager : MonoBehaviour
     
     private static List<Vector3> bornPoints;
     
-    private static int enemyNum = 20;
+    private static int enemyNum = 2;
 
     private static Vector3 destination;
 
     private static Dictionary<EnemyIndex, float> distanceList;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         enemies = new List<List<GameObject>>();
         enemyStates = new List<List<bool>>();
@@ -32,8 +32,8 @@ public class EnemyManager : MonoBehaviour
 
         destination = new Vector3(-24.83f, 0.99f, -58.83f);
         bornPoints.Add(new Vector3(86.16f, 2.99f, 22.39f));
-        bornPoints.Add(new Vector3(44.11f, 3.17f, 23.33f));
-        bornPoints.Add(new Vector3(92.40f, 3.17f, -20.53f));
+        //bornPoints.Add(new Vector3(44.11f, 3.17f, 23.33f));
+        //bornPoints.Add(new Vector3(92.40f, 3.17f, -20.53f));
 
         for (int i = 0; i < bornPoints.Count; i++)
         {
