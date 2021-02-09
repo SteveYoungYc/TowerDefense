@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Road
   - Head
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Map
   - Enemy
   - Turret
-  - 
+  - Floor
   - 
   - 
   - 

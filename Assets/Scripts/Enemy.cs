@@ -101,6 +101,7 @@ public class Enemy : MonoBehaviour
         {
             isDead = true;
             EnemyManager.OneEnemyDie(enemyIndex);
+            MoneyManager.KillAnEnemy();
             animator.SetBool("die", true);
             Turret.ShootAction -= Hit;
         }

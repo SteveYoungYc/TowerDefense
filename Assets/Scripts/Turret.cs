@@ -99,33 +99,7 @@ public class Turret : MonoBehaviour
             toward = new Vector3(Mathf.Sin(transform.eulerAngles.y / 180f * Mathf.PI),
                 Mathf.Tan(-barrel.transform.localEulerAngles.x / 180f * Mathf.PI),
                 Mathf.Cos(transform.eulerAngles.y / 180f * Mathf.PI));
-/*            
-            ray = new Ray(gunBarrel.transform.position, Vector3.Normalize(toward));
-            if (Physics.Raycast(ray, out var hit, Vector3.Distance(aimPos, gunBarrel.transform.position)))//, LayerMask.GetMask("Default")
-            {
-                //print(hit.collider.name);
-                if (!hit.collider.CompareTag("Head"))
-                {
-                    //laser.forceRenderingOff = true;
-                    //laseAudioSource.mute = true;
-                    //return;
-                }
-                else
-                {
-                    //print(hit.collider.tag);
-                }
-                laser.forceRenderingOff = false;
-                laserAudioSource.mute = true;
-                //Debug.DrawLine(ray.origin, hit.point, Color.red);
-                if(EnemyManager.MostThreatening() != null) laser.SetPosition(1, aimPos);
-            }
-            else
-            {
-                laserAudioSource.mute = true;
-                laser.SetPosition(1, gunBarrel.transform.position);
-            }
-            */
-            laserAudioSource.mute = false;
+            laserAudioSource.mute = true;
             laser.SetPosition(1, aimPos);
         }
         else

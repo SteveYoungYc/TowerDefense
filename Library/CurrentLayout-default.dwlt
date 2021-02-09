@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 780.8
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 677, y: 321}
   m_MaxSize: {x: 12002, y: 8021}
   vertical: 0
-  controlID: 104
+  controlID: 98
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 321}
   m_MaxSize: {x: 8002, y: 8021}
   vertical: 1
-  controlID: 105
+  controlID: 99
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 221}
   m_MaxSize: {x: 8002, y: 4021}
   vertical: 0
-  controlID: 106
+  controlID: 100
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -326,10 +326,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 368.67224
-    y: 72.60504
-    width: 864.32776
-    height: 425
+    x: 366.4
+    y: 73.6
+    width: 858
+    height: 421
   m_ViewDataDictionary: {fileID: 0}
   m_ViewTransforms:
     m_KeySerializationHelper:
@@ -569,9 +569,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 
+      m_SelectedIDs: 5cfbffff
+      m_LastClickedID: -1188
+      m_ExpandedIDs: 5cfbffff5efbffff043700000a3a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -631,9 +631,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 265.60504, y: -76.65045, z: 157.84099}
+    m_Target: {x: -6.3393283, y: 63.93083, z: 6.892198}
     speed: 2
-    m_Value: {x: 265.60504, y: -76.65045, z: 157.84099}
+    m_Value: {x: -6.3393283, y: 63.93083, z: 6.892198}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -680,13 +680,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.13719966, y: 0.44154295, z: -0.0685691, w: 0.88411456}
+    m_Target: {x: -0.13278836, y: -0.7817604, z: 0.5827734, w: -0.1782368}
     speed: 2
-    m_Value: {x: 0.13718976, y: 0.44151112, z: -0.068564154, w: 0.8840508}
+    m_Value: {x: -0.13277672, y: -0.7816919, z: 0.5827223, w: -0.17822118}
   m_Size:
-    m_Target: 145.3393
+    m_Target: 14.1421385
     speed: 2
-    m_Value: 145.3393
+    m_Value: 14.1421385
   m_Ortho:
     m_Target: 0
     speed: 2
