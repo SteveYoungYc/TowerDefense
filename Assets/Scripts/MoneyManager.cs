@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoneyManager : MonoBehaviour
 {
-    public static float moneySum;
+    private static float moneySum;
 
     private const float TurretCost = 200f;
     private const float EnemyEarn = 20f;
@@ -28,5 +28,15 @@ public class MoneyManager : MonoBehaviour
     public static void KillAnEnemy()
     {
         moneySum += EnemyEarn;
+    }
+
+    public static float GetMoney()
+    {
+        return moneySum;
+    }
+
+    public static bool Affordable()
+    {
+        return moneySum >= TurretCost;
     }
 }

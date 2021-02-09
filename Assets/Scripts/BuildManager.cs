@@ -27,8 +27,11 @@ public class BuildManager : MonoBehaviour
                 bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
                 if (isCollider && hit.collider.gameObject.CompareTag("Floor"))
                 {
-                    Instantiate(turretPrefab, hit.point, Quaternion.identity);
-                    MoneyManager.BuildATurret();
+                    if (MoneyManager.Affordable())
+                    {
+                        Instantiate(turretPrefab, hit.point, Quaternion.identity);
+                        MoneyManager.BuildATurret();
+                    }
                 }
             }
         }

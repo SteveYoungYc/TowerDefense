@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float m_camHeight = 0.1f;
     //修改Start函数, 初始化摄像机的位置和旋转角度
     private readonly float upDownAcc = 15.0f;
+    private readonly float rotateSpeed = 35.0f;
 
     void Start()
     {
@@ -32,9 +33,11 @@ public class Player : MonoBehaviour
         //设置摄像机的旋转方向与主角一致
         m_camTransform.rotation = m_transform.rotation;
         m_camRot = m_camTransform.eulerAngles;
+
+        m_camRot.x = 30;
         //锁定鼠标
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         //Screen.lockCursor = true;
         //this.gameObject.tag = "Enemy";
     }
@@ -75,14 +78,23 @@ public class Player : MonoBehaviour
             ym -= upDownAcc * Time.deltaTime;
         }
 
+        if (Input.GetKey(KeyCode.E))
+        {
+            m_camRot.y += rotateSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+            m_camRot.y -= rotateSpeed * Time.deltaTime;
+        }
+        
         //使用角色控制器提供的Move函数进行移动
         m_ch.Move(m_transform.TransformDirection(new Vector3(xm, ym, zm)));
         //获取鼠标移动距离
-        float rh = Input.GetAxis("Mouse X");
-        float rv = Input.GetAxis("Mouse Y");
+        //float rh = Input.GetAxis("Mouse X");
+        //float rv = Input.GetAxis("Mouse Y");
         //旋转摄像机
-        m_camRot.x -= rv;
-        m_camRot.y += rh;
+        //m_camRot.x -= rv;
+        //m_camRot.y += rh;
         m_camTransform.eulerAngles = m_camRot;
         //使角色的面向方向与摄像机一致
         Vector3 camrot = m_camTransform.eulerAngles;

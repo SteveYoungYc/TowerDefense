@@ -52,6 +52,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Turret.cs" />
      <Compile Include="Assets\Scripts\RoadManager.cs" />
+     <Compile Include="Assets\Scripts\MoneyManager.cs" />
      <Compile Include="Assets\Scripts\BuildManager.cs" />
      <Compile Include="Assets\Scripts\EnemyManager.cs" />
      <Compile Include="Assets\Scripts\SelectTarget.cs" />
@@ -59,7 +60,6 @@
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\EnemyMove.cs" />
      <Compile Include="Assets\Scripts\EnemyIndex.cs" />
-     <Compile Include="Assets\Scripts\MoneyManager.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity/TowerDefense/TowerDefense/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
