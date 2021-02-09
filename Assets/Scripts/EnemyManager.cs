@@ -5,6 +5,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -46,10 +47,18 @@ public class EnemyManager : MonoBehaviour
                 //Enemies[i][j].gameObject.layer = LayerMask.NameToLayer("Enemy");
                 Enemies[i][j].AddComponent<NavMeshAgent>();
                 Enemies[i][j].AddComponent<Enemy>();
+                //Canvas canvas = new Canvas();
+                //canvas.transform.parent = Enemies[i][j].transform;
+
+                //Enemies[i][j].AddComponent<Canvas>();
+                //Enemies[i][j].GetComponent<Canvas>();
+                //Enemies[i][j].AddComponent<RectTransform>();
+                //Enemies[i][j].AddComponent<EnemyHPBar>();
                 
                 Enemies[i][j].GetComponent<Enemy>().GetIndex(i, j);
                 Enemies[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
                 Enemies[i][j].GetComponent<NavMeshAgent>().destination = destination;
+                
                 
                 enemyStates[i].Add(true);
                 

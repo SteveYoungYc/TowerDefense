@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Turret.cs" />
+     <Compile Include="Assets\Scripts\EnemyHPBar.cs" />
      <Compile Include="Assets\Scripts\RoadManager.cs" />
      <Compile Include="Assets\Scripts\MoneyManager.cs" />
      <Compile Include="Assets\Scripts\BuildManager.cs" />

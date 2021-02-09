@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public float HP;
+    public float maxHP = 100f;
     public bool isDead;
 
     //private HitState state;
