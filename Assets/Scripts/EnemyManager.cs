@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemyPrefab;
     public AnimatorController animatorController;
     
-    private static List<List<GameObject>> enemies;
+    private static List<List<GameObject>> Enemies {set;get;}
     private static List<List<bool>> enemyStates;
     
     private static List<Vector3> bornPoints;
@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        enemies = new List<List<GameObject>>();
+        Enemies = new List<List<GameObject>>();
         enemyStates = new List<List<bool>>();
         bornPoints = new List<Vector3>();
         distanceList = new Dictionary<EnemyIndex, float>();
@@ -37,22 +37,23 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < bornPoints.Count; i++)
         {
-            enemies.Add(new List<GameObject>());
+            Enemies.Add(new List<GameObject>());
             enemyStates.Add(new List<bool>());
             for (int j = 0; j < enemyNum; j++)
             {
-                enemies[i].Add(Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity));
-                enemies[i][j].tag = "Enemy";
-                enemies[i][j].AddComponent<NavMeshAgent>();
-                enemies[i][j].AddComponent<Enemy>();
+                Enemies[i].Add(Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity));
+                Enemies[i][j].tag = "Enemy";
+                //Enemies[i][j].gameObject.layer = LayerMask.NameToLayer("Enemy");
+                Enemies[i][j].AddComponent<NavMeshAgent>();
+                Enemies[i][j].AddComponent<Enemy>();
                 
-                enemies[i][j].GetComponent<Enemy>().GetIndex(i, j);
-                enemies[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
-                enemies[i][j].GetComponent<NavMeshAgent>().destination = destination;
+                Enemies[i][j].GetComponent<Enemy>().GetIndex(i, j);
+                Enemies[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
+                Enemies[i][j].GetComponent<NavMeshAgent>().destination = destination;
                 
                 enemyStates[i].Add(true);
                 
-                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemies[i][j].transform.position, destination));
+                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(Enemies[i][j].transform.position, destination));
             }
         }
     }
@@ -73,7 +74,19 @@ public class EnemyManager : MonoBehaviour
         UpdateDistance();
         if (distanceList.Count == 0) return null;
         var index = distanceList.OrderBy(kvp => kvp.Value).First();
-        return enemies[index.Key.i][index.Key.j];
+        return Enemies[index.Key.i][index.Key.j];
+    }
+    
+    public static GameObject MostThreatening(List<GameObject> objects)
+    {
+        if (objects.Count == 0) return null;
+        Dictionary<int, float> distances = new Dictionary<int, float>();
+        for (int i = 0; i < objects.Count; i++)
+        {
+            //distances.Add(i, objects[i].GetComponent<NavMeshAgent>().remainingDistance);
+            distances.Add(i, Vector3.Distance(objects[i].transform.position, destination));
+        }
+        return objects[distances.OrderBy(kvp => kvp.Value).First().Key];
     }
 
     private static void UpdateDistance()
@@ -87,8 +100,18 @@ public class EnemyManager : MonoBehaviour
                 {
                     continue;
                 }
-                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(enemies[i][j].transform.position, destination));
+                distanceList.Add(new EnemyIndex(i, j), Vector3.Distance(Enemies[i][j].transform.position, destination));
             }
         }
+    }
+
+    public static List<List<GameObject>> GetEnemies()
+    {
+        return Enemies;
+    }
+
+    public static List<List<bool>> GetEnemyStates()
+    {
+        return enemyStates;
     }
 }
