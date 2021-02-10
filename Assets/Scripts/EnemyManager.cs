@@ -44,17 +44,8 @@ public class EnemyManager : MonoBehaviour
             {
                 Enemies[i].Add(Instantiate(enemyPrefab, bornPoints[i], Quaternion.identity));
                 Enemies[i][j].tag = "Enemy";
-                //Enemies[i][j].gameObject.layer = LayerMask.NameToLayer("Enemy");
                 Enemies[i][j].AddComponent<NavMeshAgent>();
                 Enemies[i][j].AddComponent<Enemy>();
-                //Canvas canvas = new Canvas();
-                //canvas.transform.parent = Enemies[i][j].transform;
-
-                //Enemies[i][j].AddComponent<Canvas>();
-                //Enemies[i][j].GetComponent<Canvas>();
-                //Enemies[i][j].AddComponent<RectTransform>();
-                //Enemies[i][j].AddComponent<EnemyHPBar>();
-                
                 Enemies[i][j].GetComponent<Enemy>().GetIndex(i, j);
                 Enemies[i][j].GetComponent<Animator>().runtimeAnimatorController = animatorController;
                 Enemies[i][j].GetComponent<NavMeshAgent>().destination = destination;
