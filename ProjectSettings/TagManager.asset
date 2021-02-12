@@ -11,6 +11,7 @@ TagManager:
   - Road
   - Head
   - Floor
+  - Target
   layers:
   - Default
   - TransparentFX

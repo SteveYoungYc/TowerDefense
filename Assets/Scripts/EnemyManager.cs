@@ -31,8 +31,9 @@ public class EnemyManager : MonoBehaviour
         bornPoints = new List<Vector3>();
         distanceList = new Dictionary<EnemyIndex, float>();
 
-        destination = new Vector3(-24.83f, 0.99f, -58.83f);
-        bornPoints.Add(new Vector3(86.16f, 2.99f, 22.39f));
+        destination = GameObject.FindWithTag("Target").gameObject.transform.position;
+        bornPoints.Add(new Vector3(-25f, 2f, -40f));
+        //bornPoints.Add(new Vector3(86.16f, 2.99f, 22.39f));
         //bornPoints.Add(new Vector3(44.11f, 3.17f, 23.33f));
         //bornPoints.Add(new Vector3(92.40f, 3.17f, -20.53f));
 

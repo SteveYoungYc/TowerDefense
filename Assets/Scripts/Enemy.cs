@@ -19,8 +19,11 @@ public class Enemy : MonoBehaviour
 
     private Camera mainCamera;
 
-    private GameObject head;
+    private GameObject target;
     public Vector3 aimPoint;
+    
+    public delegate void EnemyAttackEvent(int type);
+    public static event EnemyAttackEvent AttackEvent;
 
     private enum HitState
     {
@@ -32,19 +35,18 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HP = 100f;
+        HP = maxHP;
         isDead = false;
 
         //enemyIndex = new EnemyIndex(); 这一条语句后于GetIndex中的
         animator = GetComponent<Animator>();
         animator.SetBool("die", false);
+        animator.SetBool("run", true);
 
         navMeshAgent = GetComponent<NavMeshAgent>();
 
-        head = transform.Find("Z_Head").gameObject;
+        target = GameObject.FindWithTag("Target").gameObject;
 
-        head.tag = "Head";
-        
         Turret.ShootAction += Hit;
 
         mainCamera = Camera.main;
@@ -57,13 +59,16 @@ public class Enemy : MonoBehaviour
         {
             Move();
             AnimationControl();
+            if (target.activeInHierarchy)
+            {
+                Attack();
+            }
         }
         else
         {
             StopMove();
             StartCoroutine(Die());
         }
-        //aimPoint = head.transform.position + skinnedMeshRenderer.bounds.center;
     }
 
     private void Move()
@@ -87,7 +92,16 @@ public class Enemy : MonoBehaviour
 
     private void AnimationControl()
     {
-        animator.SetBool("startRun", !(Vector3.Distance(transform.position, navMeshAgent.destination) < 1));
+        animator.SetFloat("distance", navMeshAgent.remainingDistance);
+        animator.SetBool("attack", target.activeInHierarchy);
+        if (navMeshAgent.remainingDistance < 0.5f)
+        {
+            
+        }
+        else
+        {
+
+        }
     }
 
     private void Hit(int type, Vector3 pos)
@@ -117,7 +131,17 @@ public class Enemy : MonoBehaviour
     public void GetIndex(int i, int j)
     {
         enemyIndex = new EnemyIndex(i, j);
-        //numInfo.bornPointsNum = bornPointsNum;
-        //numInfo.enemyPointsNum = enemyNum;
+    }
+
+    private void Attack()
+    {
+        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Z_Attack")
+        {
+            AttackEvent(1);
+        }
+        else
+        {
+            AttackEvent(0);
+        }
     }
 }
