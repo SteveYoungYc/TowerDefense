@@ -59,10 +59,7 @@ public class Enemy : MonoBehaviour
         {
             Move();
             AnimationControl();
-            if (target.activeInHierarchy)
-            {
-                Attack();
-            }
+            Attack();
         }
         else
         {
@@ -92,7 +89,7 @@ public class Enemy : MonoBehaviour
 
     private void AnimationControl()
     {
-        animator.SetFloat("distance", navMeshAgent.remainingDistance);
+        animator.SetFloat("distance", Vector3.Distance(transform.position, target.transform.position));
         animator.SetBool("attack", target.activeInHierarchy);
         if (navMeshAgent.remainingDistance < 0.5f)
         {
@@ -135,13 +132,16 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     {
-        if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Z_Attack")
+        if (target.activeInHierarchy)
         {
-            AttackEvent(1);
-        }
-        else
-        {
-            AttackEvent(0);
+            if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Z_Attack")
+            {
+                AttackEvent(1);
+            }
+            else
+            {
+                AttackEvent(0);
+            }
         }
     }
 }

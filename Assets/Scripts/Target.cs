@@ -9,6 +9,7 @@ public class Target : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = new Vector3(-25, 2, -60);
         HP = maxHP;
         Enemy.AttackEvent += Hit;
     }

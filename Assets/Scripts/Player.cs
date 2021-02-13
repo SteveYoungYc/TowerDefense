@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         m_transform = this.transform;
-        m_transform.position = new Vector3(-25f, 2f, -30f);
+        //m_transform.position = new Vector3(-25f, 2f, -30f);
+        m_transform.position = new Vector3(86.16f, 2.99f, 22.39f);
         m_transform.transform.Rotate(0, 180, 0);
         //获取角色控制器组件
         m_ch = this.GetComponent<CharacterController>();

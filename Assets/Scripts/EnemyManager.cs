@@ -17,23 +17,23 @@ public class EnemyManager : MonoBehaviour
     
     private static List<Vector3> bornPoints;
     
-    private static int enemyNum = 20;
+    private static int enemyNum = 10;
 
     private static Vector3 destination;
 
     private static Dictionary<EnemyIndex, float> distanceList;
     
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         Enemies = new List<List<GameObject>>();
         enemyStates = new List<List<bool>>();
         bornPoints = new List<Vector3>();
         distanceList = new Dictionary<EnemyIndex, float>();
 
-        destination = GameObject.FindWithTag("Target").gameObject.transform.position;
-        bornPoints.Add(new Vector3(-25f, 2f, -40f));
-        //bornPoints.Add(new Vector3(86.16f, 2.99f, 22.39f));
+        destination = new Vector3(-25, 2, -60);//GameObject.FindWithTag("Target").gameObject.transform.position;
+        //bornPoints.Add(new Vector3(-25f, 2f, -40f));
+        bornPoints.Add(new Vector3(86.16f, 2.99f, 22.39f));
         //bornPoints.Add(new Vector3(44.11f, 3.17f, 23.33f));
         //bornPoints.Add(new Vector3(92.40f, 3.17f, -20.53f));
 
