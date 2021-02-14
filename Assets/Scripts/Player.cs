@@ -20,12 +20,16 @@ public class Player : MonoBehaviour
     private readonly float upDownAcc = 15.0f;
     private readonly float rotateSpeed = 35.0f;
 
-    void Start()
+    private void Awake()
     {
         m_transform = this.transform;
         //m_transform.position = new Vector3(-25f, 2f, -30f);
         m_transform.position = new Vector3(86.16f, 2.99f, 22.39f);
         m_transform.transform.Rotate(0, 180, 0);
+    }
+
+    void Start()
+    {
         //获取角色控制器组件
         m_ch = this.GetComponent<CharacterController>();
         //获取摄像机

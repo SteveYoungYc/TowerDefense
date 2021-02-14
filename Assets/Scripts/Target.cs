@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public float HP;
-    public float maxHP = 100f;
+    public float HP { get; private set; }
+    public readonly float maxHP = 100f;
     // Start is called before the first frame update
     void Start()
     {

@@ -33,6 +33,6 @@ public class StartScene : SceneState
     {
         panelManager.Push(new StartPanel());
         GameRoot.Instance.SetAction(panelManager.Push);
-        Debug.Log($"{sceneName}场景加载完毕");
+        //Debug.Log($"{sceneName}场景加载完毕");
     }
 }

@@ -20,18 +20,16 @@ public class BuildManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject() == false)
+            //if (EventSystem.current.IsPointerOverGameObject() == false)
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
+            if (isCollider && hit.collider.gameObject.CompareTag("Floor"))
             {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
-                if (isCollider && hit.collider.gameObject.CompareTag("Floor"))
+                if (MoneyManager.Affordable())
                 {
-                    if (MoneyManager.Affordable())
-                    {
-                        Instantiate(turretPrefab, hit.point, Quaternion.identity);
-                        MoneyManager.BuildATurret();
-                    }
+                    Instantiate(turretPrefab, hit.point, Quaternion.identity);
+                    MoneyManager.BuildATurret();
                 }
             }
         }
