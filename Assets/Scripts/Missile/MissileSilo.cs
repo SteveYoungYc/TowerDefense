@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,7 +9,7 @@ public class MissileSilo : MonoBehaviour
     public GameObject missilePrefab;
     private GameObject missileObj;
     private Missile missile;
-    private readonly float shootCDTime = 5;
+    private float shootCDTime = 5;
 
     private Vector3 targetPos;
     // Start is called before the first frame update
@@ -27,7 +28,15 @@ public class MissileSilo : MonoBehaviour
     {
         while (true)
         {
-            targetPos = new Vector3(10, 0, 10);
+            if (EnemyManager.MostThreatening() != null)
+            {
+                targetPos = EnemyManager.MostThreatening().transform.position;
+                shootCDTime = 5;
+            }
+            else
+            {
+                shootCDTime = float.MaxValue;
+            }
             missileObj = Instantiate(missilePrefab, transform.position, Quaternion.identity);
             missileObj.transform.parent = transform;
             missile = missileObj.GetComponent<Missile>();
