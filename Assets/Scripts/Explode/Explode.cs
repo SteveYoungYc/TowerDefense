@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class Explode : MonoBehaviour
 {
-    private ParticleSystem particle;
-    private ParticleSystem.MainModule mainModule;
+    public delegate void ShootEvent(int type, Vector3 pos);
+    public static event ShootEvent MissileAction;
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach (var enemy in EnemyManager.EnemiesInRegion(transform.position, 3f))
+        {
+            MissileAction(2, enemy.transform.position);
+        }
     }
 
     // Update is called once per frame

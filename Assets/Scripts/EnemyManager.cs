@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     
     private static List<Vector3> bornPoints;
     
-    private static int enemyNum = 10;
+    private static int enemyNum = 20;
 
     private static Vector3 destination;
 
@@ -34,8 +34,8 @@ public class EnemyManager : MonoBehaviour
         destination = new Vector3(-25, 2, -60);//GameObject.FindWithTag("Target").gameObject.transform.position;
         //bornPoints.Add(new Vector3(-25f, 2f, -40f));
         bornPoints.Add(new Vector3(86.16f, 2.99f, 22.39f));
-        //bornPoints.Add(new Vector3(44.11f, 3.17f, 23.33f));
-        //bornPoints.Add(new Vector3(92.40f, 3.17f, -20.53f));
+        bornPoints.Add(new Vector3(44.11f, 3.17f, 23.33f));
+        bornPoints.Add(new Vector3(92.40f, 3.17f, -20.53f));
 
         for (int i = 0; i < bornPoints.Count; i++)
         {
@@ -88,6 +88,23 @@ public class EnemyManager : MonoBehaviour
             distances.Add(i, Vector3.Distance(objects[i].transform.position, destination));
         }
         return objects[distances.OrderBy(kvp => kvp.Value).First().Key];
+    }
+    
+    public static List<GameObject> EnemiesInRegion(Vector3 pos, float distance)
+    {
+        List<GameObject> enemiesInRegion = new List<GameObject>();
+        for (int i = 0; i < bornPoints.Count; i++)
+        {
+            for (int j = 0; j < enemyNum; j++)
+            {
+                if (!enemyStates[i][j]) continue;
+                if (Vector3.Distance(pos, Enemies[i][j].transform.position) < distance)
+                {
+                    enemiesInRegion.Add(Enemies[i][j]);
+                }
+            }
+        }
+        return enemiesInRegion;
     }
 
     private static void UpdateDistance()

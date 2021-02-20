@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindWithTag("Target").gameObject;
 
         Turret.ShootAction += Hit;
+        Explode.MissileAction += Hit;
 
         mainCamera = Camera.main;
     }
@@ -104,9 +105,11 @@ public class Enemy : MonoBehaviour
     private void Hit(int type, Vector3 pos)
     {
         if (pos != transform.position) return;
-        if (type == 1)
+        
+        switch (type)
         {
-            HP -= Time.deltaTime * 20;
+            case 1: HP -= Time.deltaTime * 20; break;
+            case 2: HP -= 50; break;
         }
 
         if (HP <= 0)

@@ -105,10 +105,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6756866292803673270}
-  - component: {fileID: 6756866292803673271}
   - component: {fileID: 6756866292803673268}
   - component: {fileID: 6756866292803673275}
   - component: {fileID: -4590085495825862781}
+  - component: {fileID: 2321920264204870723}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Turret
@@ -132,18 +132,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6756866292803673271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6756866292803673264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e8d31276bbadc41a5222b1f23dda07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!120 &6756866292803673268
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -348,6 +336,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fc7284a5e646af4d80e3759ffc5d07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posA: {x: 0, y: 0, z: 0}
+  posB: {x: 0, y: 0, z: 0}
+--- !u!114 &2321920264204870723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756866292803673264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d153f69592491174abca0d0349441720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6756866293133641603
