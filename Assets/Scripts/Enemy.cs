@@ -77,7 +77,7 @@ public class Enemy : MonoBehaviour
             bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
             if (isCollider)
             {
-                navMeshAgent.SetDestination(hit.point);
+                //navMeshAgent.SetDestination(hit.point);
             }
         }
     }
