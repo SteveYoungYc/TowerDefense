@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     
     private static List<Vector3> bornPoints;
     
-    private static int enemyNum = 20;
+    private static int enemyNum = 30;
 
     private static Vector3 destination;
 

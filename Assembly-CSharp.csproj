@@ -50,13 +50,16 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Missile\Missile.cs" />
      <Compile Include="Assets\Scripts\Scene\SceneSystem.cs" />
      <Compile Include="Assets\Scripts\UIFramework\Base\BasePanel.cs" />
      <Compile Include="Assets\Scripts\EnemyHPBar.cs" />
      <Compile Include="Assets\Scripts\RoadManager.cs" />
      <Compile Include="Assets\Shared\Scripts\AdjustTimeScale.cs" />
+     <Compile Include="Assets\Scripts\Turret.cs" />
      <Compile Include="Assets\Scripts\MoneyManager.cs" />
      <Compile Include="Assets\Scripts\UIFramework\Managers\UIManager.cs" />
+     <Compile Include="Assets\Scripts\Missile\MissileSilo.cs" />
      <Compile Include="Assets\Shared\Scripts\ProximityActivate.cs" />
      <Compile Include="Assets\Scripts\UIFramework\Concrete\SettingPanel.cs" />
      <Compile Include="Assets\Scripts\UIFramework\Concrete\MainPanel.cs" />
@@ -79,12 +82,9 @@
      <Compile Include="Assets\Scripts\UIFramework\Concrete\StartPanel.cs" />
      <Compile Include="Assets\Scripts\Scene\Concrete\MainScene.cs" />
      <Compile Include="Assets\Shared\Ramps\Runtime\RampAsset.cs" />
+     <Compile Include="Assets\Scripts\Explode\Explode.cs" />
      <Compile Include="Assets\Scripts\Scene\Concrete\StartScene.cs" />
      <Compile Include="Assets\Scripts\EnemyIndex.cs" />
-     <Compile Include="Assets\Scripts\Missile\Missile.cs" />
-     <Compile Include="Assets\Scripts\Missile\MissileSilo.cs" />
-     <Compile Include="Assets\Scripts\Explode\Explode.cs" />
-     <Compile Include="Assets\Scripts\Turret.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

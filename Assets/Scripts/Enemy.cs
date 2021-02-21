@@ -104,6 +104,7 @@ public class Enemy : MonoBehaviour
 
     private void Hit(int type, Vector3 pos)
     {
+        //if (gameObject == null) return;
         if (pos != transform.position) return;
         
         switch (type)
@@ -119,6 +120,7 @@ public class Enemy : MonoBehaviour
             MoneyManager.KillAnEnemy();
             animator.SetBool("die", true);
             Turret.ShootAction -= Hit;
+            Explode.MissileAction -= Hit;
         }
     }
 

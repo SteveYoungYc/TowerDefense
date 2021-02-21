@@ -24,7 +24,7 @@ public class Target : MonoBehaviour
     {
         if (type == 1)
         {
-            HP -= Time.deltaTime * 20;
+            HP -= Time.deltaTime * 5;
         }
 
         if (HP <= 0)

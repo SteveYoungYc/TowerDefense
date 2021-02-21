@@ -21,6 +21,8 @@ public class Missile : MonoBehaviour
 
     public GameObject bigExplodeEffectPrefab;
 
+    private Vector3 targetPos;
+
     private void Awake()
     {
         //transform.position = new Vector3(0, 0, 0);
@@ -68,6 +70,33 @@ public class Missile : MonoBehaviour
         transform.Translate((end - start) * (Time.deltaTime * speed), Space.World);
     }
 
+    private void TrackOrbit()
+    {
+        int rotateSpeed = 90;
+        Vector3 lastSpeed;
+        Vector3 speed3 = new Vector3(0, 0, speed);
+        Vector3 finalForward;
+
+        float angleOffset;
+        speed3 = transform.TransformDirection(speed3);
+        transform.position = transform.position + speed3 * Time.deltaTime;
+        lastSpeed = transform.InverseTransformDirection(speed3);
+ 
+        finalForward = (targetPos - transform.position).normalized;
+        if (finalForward != transform.forward)
+        {
+            angleOffset = Vector3.Angle(transform.forward, finalForward);
+            if (angleOffset > rotateSpeed)
+            {
+                angleOffset = rotateSpeed;
+            }
+            //将自身forward朝向慢慢转向最终朝向
+            transform.forward = Vector3.Lerp(transform.forward, finalForward, rotateSpeed * Time.deltaTime / angleOffset);
+        }
+ 
+        speed3 = transform.TransformDirection(lastSpeed);
+    }
+
     private void StateSwitch()
     {
         //print(transform.position);
@@ -104,13 +133,12 @@ public class Missile : MonoBehaviour
         }
     }
 
-    public void SetTarget(Vector3 targetPos)
+    public void SetTarget(Vector3 target)
     {
+        targetPos = target;
         var position = transform.position;
         if (targetPos.y - position.y > verticalHeight)
         {
-            print(targetPos.y);
-            print(position.y);
             Debug.LogError("The target is too high.");
         }
         pointsList = new List<Vector3>

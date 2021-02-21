@@ -28,19 +28,20 @@ public class MissileSilo : MonoBehaviour
     {
         while (true)
         {
-            if (EnemyManager.MostThreatening() != null)
+            GameObject enemy = EnemyManager.MostThreatening();
+            if (enemy != null)
             {
-                targetPos = EnemyManager.MostThreatening().transform.position;
-                shootCDTime = 5;
+                targetPos = enemy.transform.position;
+                shootCDTime = 0.5f;
+                missileObj = Instantiate(missilePrefab, transform.position, Quaternion.identity);
+                missileObj.transform.parent = transform;
+                missile = missileObj.GetComponent<Missile>();
+                missile.SetTarget(targetPos);
             }
             else
             {
                 shootCDTime = float.MaxValue;
             }
-            missileObj = Instantiate(missilePrefab, transform.position, Quaternion.identity);
-            missileObj.transform.parent = transform;
-            missile = missileObj.GetComponent<Missile>();
-            missile.SetTarget(targetPos);
             
             yield return new WaitForSeconds(shootCDTime);
         }
