@@ -28,10 +28,10 @@ public class BuildManager : MonoBehaviour
             bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
             if (isCollider && hit.collider.gameObject.CompareTag("Floor"))
             {
-                if (MoneyManager.Affordable())
+                if (MoneyManager.Affordable(0))
                 {
                     Instantiate(turretPrefab, hit.point, Quaternion.identity);
-                    MoneyManager.BuildATurret();
+                    MoneyManager.BuildATurret(0);
                 }
             }
         }
@@ -43,7 +43,11 @@ public class BuildManager : MonoBehaviour
             bool isCollider = Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Map"));
             if (isCollider && hit.collider.gameObject.CompareTag("Floor"))
             {
-                Instantiate(missileSiloPrefab, hit.point, Quaternion.identity);
+                if (MoneyManager.Affordable(1))
+                {
+                    Instantiate(missileSiloPrefab, hit.point, Quaternion.identity);
+                    MoneyManager.BuildATurret(1);
+                }
             }
         }
     }

@@ -32,7 +32,7 @@ public class MissileSilo : MonoBehaviour
             if (enemy != null)
             {
                 targetPos = enemy.transform.position;
-                shootCDTime = 0.5f;
+                shootCDTime = 2f;
                 missileObj = Instantiate(missilePrefab, transform.position, Quaternion.identity);
                 missileObj.transform.parent = transform;
                 missile = missileObj.GetComponent<Missile>();

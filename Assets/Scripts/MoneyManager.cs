@@ -6,7 +6,10 @@ public class MoneyManager : MonoBehaviour
 {
     private static float moneySum;
 
-    private const float TurretCost = 200f;
+    private const float LaserTurretCost = 200f;
+    
+    private const float MissileSiloCost = 500f;
+    
     private const float EnemyEarn = 20f;
     // Start is called before the first frame update
     void Start()
@@ -20,9 +23,13 @@ public class MoneyManager : MonoBehaviour
         
     }
 
-    public static void BuildATurret()
+    public static void BuildATurret(int type)
     {
-        moneySum -= TurretCost;
+        switch (type)
+        {
+            case 0: moneySum -= LaserTurretCost; break;
+            case 1: moneySum -= MissileSiloCost; break;
+        }
     }
 
     public static void KillAnEnemy()
@@ -35,8 +42,13 @@ public class MoneyManager : MonoBehaviour
         return moneySum;
     }
 
-    public static bool Affordable()
+    public static bool Affordable(int type)
     {
-        return moneySum >= TurretCost;
+        switch (type)
+        {
+            case 0: return moneySum >= LaserTurretCost;
+            case 1: return moneySum >= MissileSiloCost;
+            default: return false;
+        }
     }
 }
